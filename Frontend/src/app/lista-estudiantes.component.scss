@@ -1,0 +1,35 @@
+/* Logo en lista de estudiantes */
+.logo-lista {
+  max-width: 40px;
+  margin: 0 auto 1rem auto;
+  display: block;
+}
+.lista-estudiantes {
+  max-width: 1100px;
+  margin: 2rem auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 2rem;
+}
+.lista-estudiantes h2 {
+  color: #2a3b6e;
+  margin-bottom: 1.5rem;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #f9f9f9;
+}
+th, td {
+  padding: 0.7rem 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+}
+th {
+  background: #e0e7ff;
+  color: #2a3b6e;
+}
+tr:hover {
+  background: #f1f5ff;
+}

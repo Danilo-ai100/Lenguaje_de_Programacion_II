@@ -1,0 +1,9 @@
+<mat-card class="mat-elevation-z2" style="max-width:400px;margin:2rem auto;padding:2rem 1.5rem;">
+  <h2 style="text-align:center;">Estadística de Pagos</h2>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:1.5rem;">
+    <button mat-raised-button color="accent" (click)="cargarTotalValidados()">Ver monto total de pagos validados</button>
+    <div *ngIf="totalValidados !== null" style="font-size:1.3em;">
+      <b>Monto total validado:</b> <span style="color:#388e3c;">S/. {{ totalValidados | number:'1.2-2' }}</span>
+    </div>
+  </div>
+</mat-card>

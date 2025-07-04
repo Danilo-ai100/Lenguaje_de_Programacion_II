@@ -1,0 +1,40 @@
+<mat-card class="pagos-estudiante mat-elevation-z2">
+  <img src="https://i.postimg.cc/hPNRM2T3/apple-touch-icon.png" alt="Logo Institución" class="logo logo-pagos" />
+  <h2>Pagos del Estudiante</h2>
+  <div class="pagos-lista">
+    <button mat-raised-button *ngFor="let pago of pagos"
+      [ngClass]="{
+        'pendiente': pago.estado === 'PENDIENTE',
+        'pagado': pago.estado === 'VALIDADO',
+        'enviado': pago.estado === 'ENVIADO',
+        'invalido': pago.estado === 'INVALIDO'
+      }"
+      class="mb-2 w-100 pago-btn"
+      [disabled]="pago.estado === 'VALIDADO'"
+      (click)="(pago.estado === 'PENDIENTE' || pago.estado === 'INVALIDO') ? seleccionarPago(pago) : null">
+      <b>{{ pago.tipo === 'MATRICULA' ? 'Matrícula' : pago.mes }}</b> - S/ {{ pago.monto }}
+      <mat-chip *ngIf="pago.estado === 'PENDIENTE'" color="warn" selected>Pendiente</mat-chip>
+      <mat-chip *ngIf="pago.estado === 'VALIDADO'" color="primary" selected>Pagado</mat-chip>
+      <mat-chip *ngIf="pago.estado === 'ENVIADO'" color="accent" selected>Enviado</mat-chip>
+      <mat-chip *ngIf="pago.estado === 'INVALIDO'" color="warn" selected>Inválido</mat-chip>
+    </button>
+  </div>
+
+  <div *ngIf="pagoSeleccionado && (pagoSeleccionado.estado === 'PENDIENTE' || pagoSeleccionado.estado === 'INVALIDO')" class="comprobante-upload">
+    <mat-divider></mat-divider>
+    <h3>Subir comprobante para <b>{{ pagoSeleccionado.tipo === 'MATRICULA' ? 'Matrícula' : pagoSeleccionado.mes }}</b></h3>
+    <input type="file" (change)="handleFileInput($event)" class="form-control mb-2" accept="image/*,application/pdf" />
+    <div class="actions">
+      <button mat-raised-button color="primary" (click)="enviarComprobante()" [disabled]="!fileToUpload">Enviar</button>
+      <button mat-stroked-button color="warn" (click)="cancelarEnvio()">Cancelar</button>
+    </div>
+    <div *ngIf="fileToUpload" class="preview">
+      <ng-container *ngIf="fileToUpload.type.startsWith('image/')">
+        <img [src]="fileToUpload | filePreview" alt="Preview" style="max-width:200px;max-height:120px;margin-top:10px;" />
+      </ng-container>
+      <ng-container *ngIf="fileToUpload.type === 'application/pdf'">
+        <span>Archivo PDF seleccionado: {{fileToUpload.name}}</span>
+      </ng-container>
+    </div>
+  </div>
+</mat-card>

@@ -1,0 +1,66 @@
+<mat-card class="validacion-pagos mat-elevation-z2">
+  <img src="https://i.postimg.cc/hPNRM2T3/apple-touch-icon.png" alt="Logo Institución" class="logo logo-validacion" />
+  <h2>Validación de Pagos</h2>
+  <div *ngIf="!pagoSeleccionado">
+    <ng-container *ngIf="pagosPendientes && pagosPendientes.length > 0; else sinPagos">
+      <table mat-table [dataSource]="pagosPendientes" class="mat-table w-100">
+        <ng-container matColumnDef="estudiante">
+          <th mat-header-cell *matHeaderCellDef>Estudiante</th>
+          <td mat-cell *matCellDef="let pago">{{pago.estudiante?.nombreCompleto || 'Sin datos'}}</td>
+        </ng-container>
+        <ng-container matColumnDef="grado">
+          <th mat-header-cell *matHeaderCellDef>Grado</th>
+          <td mat-cell *matCellDef="let pago">{{pago.estudiante?.grado || 'Sin datos'}}</td>
+        </ng-container>
+        <ng-container matColumnDef="tipo">
+          <th mat-header-cell *matHeaderCellDef>Tipo</th>
+          <td mat-cell *matCellDef="let pago">{{pago.tipo === 'MATRICULA' ? 'Matrícula' : pago.mes}}</td>
+        </ng-container>
+        <ng-container matColumnDef="monto">
+          <th mat-header-cell *matHeaderCellDef>Monto</th>
+          <td mat-cell *matCellDef="let pago">S/ {{pago.monto}}</td>
+        </ng-container>
+        <ng-container matColumnDef="accion">
+          <th mat-header-cell *matHeaderCellDef>Acción</th>
+          <td mat-cell *matCellDef="let pago">
+            <button mat-stroked-button color="primary" (click)="seleccionarPago(pago)">Ver comprobante</button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="['estudiante','grado','tipo','monto','accion']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['estudiante','grado','tipo','monto','accion'];"></tr>
+      </table>
+    </ng-container>
+    <ng-template #sinPagos>
+      <div style="text-align:center; margin:2rem 0; color:#888;">
+        <b>No hay pagos pendientes para validar.</b>
+      </div>
+    </ng-template>
+  </div>
+
+  <div *ngIf="pagoSeleccionado" class="comprobante-view">
+    <mat-divider></mat-divider>
+    <h3>Comprobante de {{ pagoSeleccionado.tipo === 'MATRICULA' ? 'Matrícula' : pagoSeleccionado.mes }}</h3>
+    <p><b>Estudiante:</b> {{pagoSeleccionado.estudiante?.nombreCompleto}}</p>
+    <p><b>Grado:</b> {{pagoSeleccionado.estudiante?.grado}}</p>
+    <p><b>Monto:</b> S/ {{pagoSeleccionado.monto}}</p>
+    <mat-chip *ngIf="pagoSeleccionado.estado === 'PENDIENTE'" color="warn" selected>Pendiente</mat-chip>
+    <mat-chip *ngIf="pagoSeleccionado.estado === 'ENVIADO'" color="accent" selected>Enviado</mat-chip>
+    <mat-chip *ngIf="pagoSeleccionado.estado === 'INVALIDO'" color="warn" selected>Inválido</mat-chip>
+    <mat-chip *ngIf="pagoSeleccionado.estado === 'VALIDADO'" color="primary" selected>Pagado</mat-chip>
+    <div class="comprobante-preview" style="margin: 1rem 0;">
+      <ng-container *ngIf="pagoSeleccionado.urlArchivo">
+        <ng-container *ngIf="getComprobanteUrl(pagoSeleccionado.urlArchivo).endsWith('.pdf'); else imgPreview">
+          <button mat-stroked-button color="accent" (click)="descargarArchivo(getComprobanteUrl(pagoSeleccionado.urlArchivo))">Ver/Descargar PDF</button>
+        </ng-container>
+        <ng-template #imgPreview>
+          <img [src]="getComprobanteUrl(pagoSeleccionado.urlArchivo)" alt="Comprobante" style="max-width:220px;max-height:140px;display:block;margin-bottom:10px;" />
+        </ng-template>
+      </ng-container>
+    </div>
+    <div class="actions">
+      <button mat-raised-button color="primary" (click)="validar(true)">Validar</button>
+      <button mat-stroked-button color="warn" (click)="validar(false)">Inválido</button>
+      <button mat-stroked-button (click)="cancelar()">Cancelar</button>
+    </div>
+  </div>
+</mat-card>

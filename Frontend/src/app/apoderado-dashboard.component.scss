@@ -1,0 +1,47 @@
+.apoderado-dashboard-welcome {
+  margin: 2rem auto;
+  max-width: 600px;
+  padding: 2.5rem 2rem 2rem 2rem;
+  background: #f9fafc;
+  border-radius: 18px;
+  box-shadow: 0 4px 18px rgba(25, 118, 210, 0.08), 0 1.5px 4px rgba(0,0,0,0.04);
+  border: 1.5px solid #e3e8ee;
+  text-align: center;
+}
+
+.apoderado-dashboard-welcome h1 {
+  color: #1976d2;
+  font-size: 2.1rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.5px;
+}
+
+.apoderado-dashboard-welcome ul {
+  text-align: left;
+  margin: 1rem auto 1.5rem auto;
+  padding-left: 1.5rem;
+  color: #333;
+  font-size: 1.08rem;
+}
+
+.apoderado-dashboard-welcome li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.apoderado-dashboard-welcome b, .apoderado-dashboard-welcome strong {
+  color: #1976d2;
+}
+
+.apoderado-dashboard-welcome mat-divider {
+  margin: 1.5rem 0 1.2rem 0;
+}
+
+.celular-admin {
+  margin: 1.5rem 0 0.5rem 0;
+  color: #1976d2;
+  font-size: 1.13rem;
+  text-align: center;
+  font-weight: 500;
+}

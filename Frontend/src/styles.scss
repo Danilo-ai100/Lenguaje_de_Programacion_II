@@ -1,0 +1,35 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e0e7ff 100%);
+  min-height: 100vh;
+}
+
+// Animación de entrada global
+router-outlet ~ * {
+  animation: fadeIn 0.7s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// Scrollbar colorido
+::-webkit-scrollbar {
+  width: 10px;
+  background: #e0e7ff;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #ffb300 0%, #2a3b6e 100%);
+  border-radius: 6px;
+}
+
+// Colores para selección de texto
+::selection {
+  background: #ffb30055;
+  color: #2a3b6e;
+}

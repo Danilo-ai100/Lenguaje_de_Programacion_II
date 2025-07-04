@@ -1,0 +1,128 @@
+<mat-card class="matricula-form">
+  <img src="https://i.postimg.cc/hPNRM2T3/apple-touch-icon.png" alt="Logo Institución" class="logo logo-matricula" />
+  <h2>Datos del Estudiante</h2>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Nombre completo</mat-label>
+          <input matInput formControlName="nombreCompleto" required />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Apellido paterno</mat-label>
+          <input matInput formControlName="apellidoPaterno" required />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Apellido materno</mat-label>
+          <input matInput formControlName="apellidoMaterno" required />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Año académico</mat-label>
+          <input matInput type="number" formControlName="anioAcademico" required />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Grado</mat-label>
+          <mat-select formControlName="grado" required>
+            <mat-option value="">Seleccione grado</mat-option>
+            <mat-option value="INICIAL 4 años">INICIAL 4 años</mat-option>
+            <mat-option value="INICIAL 5 años">INICIAL 5 años</mat-option>
+            <mat-option value="1ro de primaria">1ro de primaria</mat-option>
+            <mat-option value="2ro de primaria">2ro de primaria</mat-option>
+            <mat-option value="3ro de primaria">3ro de primaria</mat-option>
+            <mat-option value="4to de primaria">4to de primaria</mat-option>
+            <mat-option value="5to de primaria">5to de primaria</mat-option>
+            <mat-option value="6to de primaria">6to de primaria</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Sección</mat-label>
+          <mat-select formControlName="seccion" required>
+            <mat-option value="">Seleccione sección</mat-option>
+            <mat-option value="A">A</mat-option>
+            <mat-option value="B">B</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Fecha de nacimiento</mat-label>
+          <input matInput type="date" formControlName="fechaNacimiento" required />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>DNI (8 dígitos)</mat-label>
+          <input matInput formControlName="dniEstudiante" maxlength="8" required />
+        </mat-form-field>
+        <mat-checkbox formControlName="traslado">¿Es traslado?</mat-checkbox>
+        <div *ngIf="showInstitucionExtra" class="institucion-extra">
+          <h3>Institución de procedencia</h3>
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Nombre de la institución</mat-label>
+            <input matInput formControlName="institucionProcedencia" autocomplete="off" />
+          </mat-form-field>
+          <ul *ngIf="sugerencias.length">
+            <li *ngFor="let sug of sugerencias" (click)="onSelectSugerencia(sug)">
+              {{sug.nombre}} ({{sug.nivel}}) - {{sug.codigoModular}}
+            </li>
+          </ul>
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Nivel</mat-label>
+            <mat-select formControlName="nivelProcedencia">
+              <mat-option value="">Nivel</mat-option>
+              <mat-option value="INICIAL">INICIAL</mat-option>
+              <mat-option value="PRIMARIA">PRIMARIA</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Código modular</mat-label>
+            <input matInput formControlName="codigoModular" />
+          </mat-form-field>
+          <button mat-stroked-button color="primary" type="button" (click)="guardarInstitucionExtra()">Guardar institución</button>
+        </div>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <h2>Datos del Apoderado</h2>
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Nombre completo</mat-label>
+          <input matInput formControlName="nombreCompletoApoderado" required />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Apellidos completos</mat-label>
+          <input matInput formControlName="apellidosCompletosApoderado" required />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>DNI (8 dígitos)</mat-label>
+          <input matInput formControlName="dniApoderado" maxlength="8" required />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Celular</mat-label>
+          <input matInput formControlName="celularApoderado" required />
+        </mat-form-field>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <h2>Contacto de Emergencia (opcional)</h2>
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Nombre de la persona</mat-label>
+          <input matInput formControlName="nombreContactoEmergencia" />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Celular</mat-label>
+          <input matInput formControlName="celularContactoEmergencia" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="actions">
+      <button mat-raised-button color="primary" type="submit">Registrar estudiante</button>
+      <button mat-stroked-button color="warn" type="reset" (click)="form.reset()">Limpiar</button>
+    </div>
+  </form>
+</mat-card>

@@ -1,0 +1,28 @@
+/* Logo en dashboard admin */
+.logo-admin {
+  max-width: 60px;
+  margin: 0 auto 1rem auto;
+  display: block;
+}
+.estadisticas-admin {
+  max-width: 400px;
+  margin: 2rem auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 2rem;
+  text-align: center;
+}
+.estadisticas-admin h2 {
+  color: #2a3b6e;
+  margin-bottom: 1.5rem;
+}
+.total {
+  font-size: 1.5rem;
+  color: #1976d2;
+  margin-top: 1rem;
+}
+.total span {
+  color: #333;
+  margin-right: 0.5rem;
+}

@@ -1,0 +1,109 @@
+<mat-card class="mat-elevation-z2 lista-estudiantes">
+  <img src="https://i.postimg.cc/hPNRM2T3/apple-touch-icon.png" alt="Logo Institución" class="logo logo-lista" />
+  <h2>Lista de Estudiantes</h2>
+  <div class="table-responsive">
+    <table mat-table [dataSource]="estudiantes" class="mat-table w-100">
+      <ng-container matColumnDef="nombreCompleto">
+        <th mat-header-cell *matHeaderCellDef>Nombre Completo</th>
+        <td mat-cell *matCellDef="let est">{{est.nombreCompleto}}</td>
+      </ng-container>
+      <ng-container matColumnDef="apellidoPaterno">
+        <th mat-header-cell *matHeaderCellDef>Apellido Paterno</th>
+        <td mat-cell *matCellDef="let est">{{est.apellidoPaterno}}</td>
+      </ng-container>
+      <ng-container matColumnDef="apellidoMaterno">
+        <th mat-header-cell *matHeaderCellDef>Apellido Materno</th>
+        <td mat-cell *matCellDef="let est">{{est.apellidoMaterno}}</td>
+      </ng-container>
+      <ng-container matColumnDef="anioAcademico">
+        <th mat-header-cell *matHeaderCellDef>Año Académico</th>
+        <td mat-cell *matCellDef="let est">{{est.anioAcademico}}</td>
+      </ng-container>
+      <ng-container matColumnDef="grado">
+        <th mat-header-cell *matHeaderCellDef>Grado</th>
+        <td mat-cell *matCellDef="let est">{{est.grado}}</td>
+      </ng-container>
+      <ng-container matColumnDef="seccion">
+        <th mat-header-cell *matHeaderCellDef>Sección</th>
+        <td mat-cell *matCellDef="let est">{{est.seccion}}</td>
+      </ng-container>
+      <ng-container matColumnDef="dni">
+        <th mat-header-cell *matHeaderCellDef>DNI</th>
+        <td mat-cell *matCellDef="let est">{{est.dni}}</td>
+      </ng-container>
+      <ng-container matColumnDef="traslado">
+        <th mat-header-cell *matHeaderCellDef>Traslado</th>
+        <td mat-cell *matCellDef="let est">{{est.traslado ? 'Sí' : 'No'}}</td>
+      </ng-container>
+      <ng-container matColumnDef="institucionProcedencia">
+        <th mat-header-cell *matHeaderCellDef>Institución Procedencia</th>
+        <td mat-cell *matCellDef="let est">{{est.institucionProcedencia}}</td>
+      </ng-container>
+      <ng-container matColumnDef="apoderado">
+        <th mat-header-cell *matHeaderCellDef>Apoderado</th>
+        <td mat-cell *matCellDef="let est">{{est.apoderado?.nombreCompleto}}</td>
+      </ng-container>
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let est">
+          <ng-container *ngIf="esApoderado">
+            <button mat-raised-button color="primary" (click)="verPagos(est)">Ver pagos</button>
+          </ng-container>
+          <ng-container *ngIf="!esApoderado">
+            <button mat-stroked-button color="accent" (click)="editarEstudiante(est)">Editar</button>
+            <button mat-stroked-button color="warn" (click)="eliminarEstudiante(est)">Eliminar</button>
+          </ng-container>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="['nombreCompleto','apellidoPaterno','apellidoMaterno','anioAcademico','grado','seccion','dni','traslado','institucionProcedencia','apoderado','acciones']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['nombreCompleto','apellidoPaterno','apellidoMaterno','anioAcademico','grado','seccion','dni','traslado','institucionProcedencia','apoderado','acciones'];"></tr>
+    </table>
+  </div>
+</mat-card>
+<dialog id="modal-edicion" style="border-radius:12px;min-width:340px;">
+  <form [formGroup]="formEdicion" (ngSubmit)="guardarEdicion()">
+    <h3>Editar Estudiante</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;">
+      <div style="flex:1 1 140px;min-width:140px;">
+        <label>Nombre Completo</label>
+        <input formControlName="nombreCompleto" class="form-control" />
+      </div>
+      <div style="flex:1 1 120px;min-width:120px;">
+        <label>Apellido Paterno</label>
+        <input formControlName="apellidoPaterno" class="form-control" />
+      </div>
+      <div style="flex:1 1 120px;min-width:120px;">
+        <label>Apellido Materno</label>
+        <input formControlName="apellidoMaterno" class="form-control" />
+      </div>
+      <div style="flex:1 1 80px;min-width:80px;">
+        <label>Año</label>
+        <input formControlName="anioAcademico" class="form-control" type="number" />
+      </div>
+      <div style="flex:1 1 80px;min-width:80px;">
+        <label>Grado</label>
+        <input formControlName="grado" class="form-control" />
+      </div>
+      <div style="flex:1 1 80px;min-width:80px;">
+        <label>Sección</label>
+        <input formControlName="seccion" class="form-control" />
+      </div>
+      <div style="flex:1 1 100px;min-width:100px;">
+        <label>DNI</label>
+        <input formControlName="dni" class="form-control" />
+      </div>
+      <div style="flex:1 1 100px;min-width:100px;">
+        <label>Traslado</label>
+        <input type="checkbox" formControlName="traslado" />
+      </div>
+      <div style="flex:1 1 180px;min-width:180px;">
+        <label>Institución Procedencia</label>
+        <input formControlName="institucionProcedencia" class="form-control" />
+      </div>
+    </div>
+    <div style="margin-top:1.2rem;display:flex;gap:1rem;justify-content:flex-end;">
+      <button mat-raised-button color="primary" type="submit" [disabled]="formEdicion.invalid">Guardar</button>
+      <button mat-stroked-button type="button" (click)="cancelarEdicion()">Cancelar</button>
+    </div>
+  </form>
+</dialog>

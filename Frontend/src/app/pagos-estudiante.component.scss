@@ -1,0 +1,76 @@
+/* Logo en pagos estudiante */
+.logo-pagos {
+  max-width: 36px;
+  margin: 0 auto 1rem auto;
+  display: block;
+}
+.pagos-estudiante {
+  max-width: 600px;
+  margin: 2rem auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 2rem;
+}
+.pagos-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+// Botones de pago con colores claros y chips
+.pago-btn {
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  min-width: 180px;
+  transition: background 0.2s;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.pago-btn.pendiente {
+  background: #e53935;
+}
+.pago-btn.pagado {
+  background: #1976d2;
+}
+.pago-btn.enviado {
+  background: #ffb300;
+  color: #222;
+}
+.pago-btn.invalido {
+  background: #757575;
+}
+.mat-chip {
+  margin-left: 10px;
+  font-size: 0.95em;
+}
+.comprobante-upload {
+  margin-top: 2rem;
+  background: #f5f7fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px #0001;
+}
+.preview {
+  margin-top: 1rem;
+}
+.pagos-lista .invalido {
+  background: #757575;
+}
+.comprobante-upload {
+  background: #f5f7fa;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}

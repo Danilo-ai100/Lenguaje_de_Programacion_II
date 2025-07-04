@@ -1,0 +1,23 @@
+<div class="login-container">
+  <mat-card class="login-form">
+    <img src="https://i.postimg.cc/hPNRM2T3/apple-touch-icon.png" alt="Logo Institución" class="logo" />
+    <h2>{{ isAdminMode ? 'Login Administrador' : 'Login Padres de Familia' }}</h2>
+    <form (ngSubmit)="login()">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Usuario</mat-label>
+        <input matInput [(ngModel)]="username" name="username" required />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Contraseña</mat-label>
+        <input matInput [(ngModel)]="password" name="password" type="password" required />
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit" class="w-100">Ingresar</button>
+      <div *ngIf="error" class="error">{{ error }}</div>
+      <div class="toggle-admin">
+        <button mat-stroked-button color="accent" type="button" (click)="toggleAdmin()" class="w-100">
+          {{ isAdminMode ? '¿Eres padre de familia?' : '¿Eres administrador?' }}
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

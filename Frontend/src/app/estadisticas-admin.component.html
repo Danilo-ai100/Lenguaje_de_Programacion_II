@@ -1,0 +1,123 @@
+<mat-card class="admin-dashboard-welcome mat-elevation-z2">
+  <img src="https://i.postimg.cc/hPNRM2T3/apple-touch-icon.png" alt="Logo Institución" class="logo logo-admin" />
+  <h1>Panel de Administración</h1>
+  <div style="display:flex;flex-wrap:wrap;gap:2rem;justify-content:center;align-items:flex-start;">
+    <div style="flex:1 1 320px;min-width:320px;max-width:400px;">
+      <h3>Estadística de Pagos</h3>
+      <div style="margin-bottom:1rem;">
+        <button mat-raised-button color="accent" (click)="cargarTotalValidados()">Ver monto total de pagos validados</button>
+        <div *ngIf="totalValidados !== null" style="margin-top:1rem;font-size:1.2em;">
+          <b>Monto total validado:</b> S/. {{ totalValidados | number:'1.2-2' }}
+        </div>
+      </div>
+      <h3>Crear cuenta admin</h3>
+      <form [formGroup]="formAdmin" (ngSubmit)="crearAdmin()" style="display:flex;flex-direction:column;gap:1rem;">
+        <mat-form-field appearance="outline">
+          <mat-label>Correo Gmail</mat-label>
+          <input matInput formControlName="username" placeholder="usuario@gmail.com" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre identificador</mat-label>
+          <input matInput formControlName="nombreId" placeholder="Nombre identificador" />
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" [disabled]="formAdmin.invalid">Crear admin</button>
+      </form>
+      <div *ngIf="resultadoCreacion">
+        <div *ngIf="resultadoCreacion.error" class="error">{{resultadoCreacion.error}}</div>
+        <div *ngIf="resultadoCreacion.password">
+          <b>Admin creado:</b><br>
+          Usuario: {{resultadoCreacion.username}}<br>
+          Nombre: {{resultadoCreacion.nombreId}}<br>
+          Contraseña generada: <span style="font-family:monospace;">{{resultadoCreacion.password}}</span>
+        </div>
+      </div>
+    </div>
+    <div style="flex:1 1 320px;min-width:320px;max-width:500px;">
+      <h3>Ver cuentas del sistema</h3>
+      <button mat-stroked-button color="accent" (click)="verUsuarios()">Ver todas las cuentas</button>
+      <div *ngIf="mostrarUsuarios && usuarios">
+        <h4>Administradores</h4>
+        <table class="mat-table w-100" style="margin-bottom:1.5rem;">
+          <tr><th>Nombre</th><th>Correo</th><th>Acciones</th></tr>
+          <tr *ngFor="let admin of usuarios.admins">
+            <ng-container *ngIf="usuarioEditando && usuarioEditando.id === admin.id; else adminRow">
+              <td colspan="3">
+                <form [formGroup]="editForm" (ngSubmit)="guardarEdicion()" style="display:flex;gap:1rem;align-items:center;">
+                  <mat-form-field appearance="outline" style="width:180px;">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput formControlName="nombreId" />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" style="width:180px;">
+                    <mat-label>Correo</mat-label>
+                    <input matInput formControlName="username" />
+                  </mat-form-field>
+                  <button mat-icon-button color="primary" type="submit" [disabled]="editForm.invalid">
+                    <mat-icon>check</mat-icon>
+                  </button>
+                  <button mat-icon-button color="warn" type="button" (click)="cancelarEdicion()">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </form>
+              </td>
+            </ng-container>
+            <ng-template #adminRow>
+              <td>{{admin.nombreId}}</td>
+              <td>{{admin.username}}</td>
+              <td>
+                <button mat-icon-button color="primary" (click)="editarUsuario(admin)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="eliminarUsuario(admin)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-template>
+          </tr>
+        </table>
+        <h4>Apoderados</h4>
+        <table class="mat-table w-100">
+          <tr><th>Nombre</th><th>Usuario (DNI)</th><th>Acciones</th></tr>
+          <tr *ngFor="let ap of usuarios.apoderados">
+            <ng-container *ngIf="usuarioEditando && usuarioEditando.id === ap.id; else apRow">
+              <td colspan="3">
+                <form [formGroup]="editForm" (ngSubmit)="guardarEdicion()" style="display:flex;gap:1rem;align-items:center;">
+                  <mat-form-field appearance="outline" style="width:180px;">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput formControlName="nombreId" />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" style="width:120px;">
+                    <mat-label>DNI</mat-label>
+                    <input matInput formControlName="username" />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" style="width:180px;">
+                    <mat-label>Nombre completo</mat-label>
+                    <input matInput formControlName="nombreCompleto" />
+                  </mat-form-field>
+                  <button mat-icon-button color="primary" type="submit" [disabled]="editForm.invalid">
+                    <mat-icon>check</mat-icon>
+                  </button>
+                  <button mat-icon-button color="warn" type="button" (click)="cancelarEdicion()">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </form>
+              </td>
+            </ng-container>
+            <ng-template #apRow>
+              <td>{{ap.nombreId}}</td>
+              <td>{{ap.username}}</td>
+              <td>
+                <button mat-icon-button color="primary" (click)="editarUsuario(ap)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="eliminarUsuario(ap)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-template>
+          </tr>
+        </table>
+        <button mat-stroked-button (click)="cerrarUsuarios()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</mat-card>

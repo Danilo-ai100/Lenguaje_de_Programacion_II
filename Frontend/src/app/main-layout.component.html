@@ -1,0 +1,17 @@
+<nav class="main-navbar">
+  <div class="logo">
+    <img src="https://i.postimg.cc/hPNRM2T3/apple-touch-icon.png" alt="Logo Institución" class="logo-img" /> DAYIVA SCHOOL
+  </div>
+  <ul class="menu">
+    <li *ngFor="let item of menu">
+      <a [routerLink]="item.route" routerLinkActive="active">{{ item.label }}</a>
+    </li>
+  </ul>
+  <div class="user-info">
+    <span *ngIf="user">{{ user.username }} ({{ user.rol }})</span>
+    <button (click)="logout()">Cerrar sesión</button>
+  </div>
+</nav>
+<main class="main-content">
+  <router-outlet></router-outlet>
+</main>
